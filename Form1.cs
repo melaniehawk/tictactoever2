@@ -75,30 +75,37 @@ namespace TicTacToe
 
             if (turn) return; // computer's can't input during players's turn
 
+
             List<Button> buttons = new List<Button> { button1, button2, button3, button4,
             button5, button6, button7,  button8, button9 };
 
 
             int number;
-            do
-            {
-                number = rand.Next(9);
-            } while (buttons[number].Text != "");
 
+            number = rand.Next(9);
 
-            if (isPlayerXTurn != true)
+            if (buttons[number].Text == "")
             {
-                buttons[number].Text = "X";
+                if (isPlayerXTurn != true)
+                {
+                    buttons[number].Text = "X";
+                }
+                else
+                {
+                    buttons[number].Text = "O";
+                }
+
+                buttonCountdown--; // Decrease the number of buttons
+                CheckGame(); // Check if the game is over
+                buttons[number].Enabled = false; // Disables the button
+                turn = !turn;
             }
             else
             {
-                buttons[number].Text = "O";
+                ComputerMove();
             }
 
-            buttonCountdown--; // Decrease the number of buttons
-            CheckGame(); // Check if the game is over
-            turn = !turn;
-            buttons[number].Enabled = false; // Disables the button
+    
         }
 
         private void exitBtn_Click(object sender, EventArgs e)
@@ -199,6 +206,7 @@ namespace TicTacToe
             buttonCountdown = 9;
             button1.Text = button2.Text = button3.Text = button4.Text =
             button5.Text = button6.Text = button7.Text = button8.Text = button9.Text = "";
+
             button1.Enabled = button2.Enabled = button3.Enabled = button4.Enabled = button5.Enabled
             = button6.Enabled = button7.Enabled = button8.Enabled = button9.Enabled = true;
 
